@@ -1,3 +1,27 @@
 {
-  "recommendations": ["Vue.volar", "Vue.vscode-typescript-vue-plugin"]
+  "recommendations": [
+    // "Vue.volar", "Vue.vscode-typescript-vue-plugin",
+    // 核心扩展
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "octref.vetur",
+    // 开发辅助
+    "eamodio.gitlens",
+    "pkief.material-icon-theme",
+    "alexcvzz.vscode-sqlite",
+    "visualstudioexptteam.vscodeintellicode",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "oderwat.indent-rainbow",
+    "bierner.markdown-emoji",
+    "wayou.vscode-todo-highlight",
+    "streetsidesoftware.code-spell-checker",
+    "coenraads.bracket-pair-colorizer-2",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    // Vue 相关
+    "octref.vetur",
+    "jcbuisson.vue"
+  ]
 }

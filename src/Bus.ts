@@ -24,4 +24,4 @@ class Bus<T extends BusParams> implements BusClass<T> {
       this.list[name] = fn
   }
 }
-export default new Bus<number>()
+export default new Bus<BusParams>()

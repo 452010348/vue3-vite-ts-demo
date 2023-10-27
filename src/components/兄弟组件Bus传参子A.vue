@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts">
 import Bus from '../Bus';
-const emitB = ()=>{
-  Bus.emit("on-click",Date.now());
-}
+const emitB = () => {
+  Bus.emit('on-click', Date.now());
+};
 </script>

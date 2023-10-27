@@ -1,30 +1,32 @@
 
 
-<template>
-  <button v-for="(item,idnex) in data" @click="onTab(item,idnex)">{{ item.name }}</button>
-  <component :is="comId" ></component>
+<template v-if="condition">
+
+    <button v-for="(item,idnex) in data" @click="onTab(item,idnex)">{{ item.name }}</button>
+    <component :is="comId" ></component>
+
 </template>
 <script setup lang="ts">
-import { reactive,shallowRef,markRaw } from "vue";
-
-import HelloWorld from './components/HelloWorld.vue'
-import Tree from './components/Tree.vue';
-import 传送组件 from './components/传送组件.vue';
-import 缓存组件 from './components/缓存组件.vue';
-import 兄弟组件Bus传参 from './components/兄弟组件Bus传参.vue';
-import vModel双向同步 from './components/vModel双向同步.vue';
-const comId = shallowRef(HelloWorld);
+import { reactive,shallowRef,markRaw,defineAsyncComponent } from "vue";
+const comId = shallowRef('');
 const data = reactive([
-  {name:'HelloWorld',com:markRaw(HelloWorld)},
-  {name:'Tree',com:markRaw(Tree)},
-  {name:'传送组件',com:markRaw(传送组件)},
-  {name:'缓存组件',com:markRaw(缓存组件)},
-  {name:'兄弟组件Bus传参',com:markRaw(兄弟组件Bus传参)},
-  {name:'vModel双向同步',com:markRaw(vModel双向同步)},
+  {name:'插槽',com:markRaw(defineAsyncComponent(() => import('./page/插槽.vue')))},
+  {name:'Tree',com:markRaw(defineAsyncComponent(() => import('./page/Tree.vue')))},
+  {name:'vModel双向同步',com:markRaw(defineAsyncComponent(() => import('./page/vModel双向同步.vue')))},
+  {name:'传送组件',com:markRaw(defineAsyncComponent(() => import('./page/传送组件.vue')))},
+  {name:'兄弟组件Bus传参',com:markRaw(defineAsyncComponent(() => import('./page/兄弟组件Bus传参.vue')))},
+  {name:'动态组件',com:markRaw(defineAsyncComponent(() => import('./page/动态组件.vue')))},
+  {name:'异步组件',com:markRaw(defineAsyncComponent(() => import('./page/异步组件.vue')))},
+  {name:'缓存组件',com:markRaw(defineAsyncComponent(() => import('./page/缓存组件.vue')))},
+  {name:'适配rem',com:markRaw(defineAsyncComponent(() => import('./page/适配rem.vue')))},
+  {name:'适配vw',com:markRaw(defineAsyncComponent(() => import('./page/适配vw.vue')))},
 ])
-const onTab = (item,index)=>{
+const onTab = (item:any,index:number)=>{
   console.log( item, index);
   comId.value = item.com
 }
 </script>
+<style>
+
+</style>
 

@@ -7,8 +7,8 @@
 <script setup lang="ts">
 import Bus from '../Bus';
 import { ref } from 'vue';
-const time = ref(Date.now());
-Bus.on("on-click",(e)=>{
+const time = ref<number>(Date.now());
+Bus.on("on-click",(e:number)=>{
   console.log( e );
   time.value = e;
 });
