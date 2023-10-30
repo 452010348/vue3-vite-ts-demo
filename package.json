@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  
   "homepage": "https://github.com/452010348/vue3-vite-ts-demo",
   "bugs": {
     "url": "https://github.com/452010348/vue3-vite-ts-demo/issues"
@@ -35,6 +34,7 @@
     "xstate": "^4.38.2"
   },
   "devDependencies": {
+    "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "unocss": "^0.56.5",
