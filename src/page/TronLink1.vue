@@ -214,6 +214,25 @@ async function getBalance(address = tronLink.tronWeb.defaultAddress.base58) {
 
 
 
+/*
+
+export const tronScanGatewayByChainId = new Map<string, string>([
+  [TronChainId.Main, 'https://apilist.tronscanapi.com/api'],
+  [TronChainId.Nile, 'https://nileapi.tronscan.org/api'],
+])
+
+export const tronGridGatewayByChainId = new Map<string, string>([
+  [TronChainId.Main, 'https://api.trongrid.io'],
+  [TronChainId.Nile, 'https://nile.trongrid.io'],
+])
+
+export const usdtContractAddress = new Map<string, string>([
+  [TronChainId.Main, 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'],
+  [TronChainId.Nile, 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf'],
+])
+
+*/
+
 // 导入相关依赖
 // const TronWeb = require('tronweb');  // 这里假设你已经安装了 tronweb 包
 
@@ -224,7 +243,7 @@ const _tronWeb = new tronWeb({
 });
 
 // 获取合约地址
-const usdtContractAddress = 'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h';  // USDT 的合约地址
+const usdtContractAddress = 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf';  // USDT 的合约地址
 
 // 进行 TRX 到 USDT 的转账
 async function sendTrxToUsdt(amount) {
