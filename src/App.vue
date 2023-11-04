@@ -20,6 +20,7 @@ const data = reactive([
   {name:'适配vw',com:markRaw(defineAsyncComponent(() => import('./page/适配vw.vue')))},
   {name:'TronLink1',com:markRaw(defineAsyncComponent(() => import('./page/TronLink1.vue')))},
   {name:'TronLink',com:markRaw(defineAsyncComponent(() => import('./page/TronLink.vue')))},
+  {name:'Modal二次封装js直接调用',com:markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue')))},
 ])
 const onTab = (item:any,index:number)=>{
   console.log( item, index);
