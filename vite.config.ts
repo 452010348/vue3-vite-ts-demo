@@ -9,5 +9,10 @@ export default defineConfig({
   ],
   server:{
     host:"0.0.0.0",
+
+    proxy: {
+      '/v1': 'https://nile.tron-gas.net',
+      '/open': 'https://nile.tron-gas.net',
+    },
   }
 })

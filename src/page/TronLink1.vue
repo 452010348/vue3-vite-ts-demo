@@ -12,8 +12,8 @@
 
         <!-- <button @click="transfer()">trx转usdt</button>
         <button @click="fetchBalance()">获取USDT余额</button> -->
-        <button @click="sendTrxToUsdt(200)">发起合约STR转账USDT</button>
-        <button @click="sendTrxToUsdt(200,'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h')">发起合约STR转账USDT,给钱包2</button>
+        <button @click="sendTrxToUsdt(200,'TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')">STR->USDT,自己到钱包1</button>
+        <button @click="sendTrxToUsdt(200,'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h')">STR->USDT,自己到钱包2</button>
     </div>
 </template>
 
@@ -24,7 +24,7 @@
 //  * @param chainId 链ID
 //  * @param symbol 代币 Symbol，默认为 TRX
 //  */
-// async function fetchBalance() {
+// async function  () {
 //     // let address = tronLink.tronWeb.defaultAddress.base58;
 //     let address = 'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h';
 //     // let symbol = ['TRX','USDT'][1]
@@ -120,7 +120,7 @@ async function getTronWeb() {
         throw error;
     }
 }
-// 普通转账
+// 普通转账 trx 转 给trx
 async function sendTrx() {
     try {
         await getTronWeb();
@@ -184,47 +184,13 @@ async function getBalance(address:string= tronLink.tronWeb.defaultAddress.base58
 }
 
 
-
-// async function sendTrxToUsdt(amount: number, toAddress: string) {
-//   try {
-//     await getTronWeb();
-//     await tronWeb.ready;
-
-//     const account = tronWeb.defaultAddress.base58; // 获取当前地址
-//     const usdtContractAddress = 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf'; // USDT 合约地址
-
-//     const trxBalance = await tronWeb.trx.getBalance(account);
-//     console.log("当前 TRX 余额：", trxBalance);
-
-//     const usdtContract = await tronWeb.contract().at(usdtContractAddress);
-//     const decimals = await usdtContract.decimals().call();
-
-//     const usdtAmount = amount * Math.pow(10, decimals);
-
-//     const transferTransaction = await usdtContract.transfer(toAddress, usdtAmount).send({
-//       feeLimit: 100000000, // 设置交易手续费限制
-//       callValue: 0, // 设置调用值
-//       shouldPollResponse: true // 设置是否轮询交易确认
-//     });
-
-//     console.log('转账交易成功：', transferTransaction);
-//     return Promise.resolve(transferTransaction);
-//   } catch (error) {
-//     console.log('转账交易失败：', error);
-//     return Promise.reject(error);
-//   }
-// }
-
-// 进行 TRX 到 USDT 的转账
+// 进行 TRX 到 USDT 的转账   测试后发现 原金额以扣除 但转账后金额一直不到账
 async function sendTrxToUsdt(amount:number, toAddress: string) {
   try {
     await getTronWeb();
     await tronWeb.ready;
     const fromAddress = tronWeb.defaultAddress.base58;  // 获取当前地址
 
-    if(toAddress && fromAddress===toAddress){ 
-        throw new Error('fromAddress toAddress 相同');
-    }
     // 获取合约地址
     const usdtContractAddress = 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf';  // USDT 的合约地址
 
@@ -243,9 +209,7 @@ async function sendTrxToUsdt(amount:number, toAddress: string) {
             throw new Error('Invalid amount. Please provide a valid number.');
         }
       // 构建转账交易
-      const transferTransaction = !toAddress?
-        await usdtContract.transfer(fromAddress, usdtAmount).send():
-        await usdtContract.transfer(toAddress, usdtAmount).send();
+      const transferTransaction = await usdtContract.transfer(toAddress, usdtAmount).send();
 
       console.log('转账交易成功：', transferTransaction);
 
