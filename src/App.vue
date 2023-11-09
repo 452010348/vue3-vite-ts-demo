@@ -21,6 +21,7 @@ const data = reactive([
   {name:'TronLink1',com:markRaw(defineAsyncComponent(() => import('./page/TronLink1.vue')))},
   {name:'TronLink',com:markRaw(defineAsyncComponent(() => import('./page/TronLink.vue')))},
   {name:'Modal二次封装js直接调用',com:markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue')))},
+  {name:'网格布局grid响应式',com:markRaw(defineAsyncComponent(() => import('./page/网格布局grid响应式.vue')))},
 ])
 const onTab = (item:any,index:number)=>{
   console.log( item, index);
