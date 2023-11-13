@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { reactive,shallowRef,markRaw,defineAsyncComponent } from "vue";
 // const comId = shallowRef('');
-const comId = shallowRef(defineAsyncComponent(() => import('./page/TronLink1.vue')));
+const comId = shallowRef(defineAsyncComponent(() => import('./page/TronLink2.vue')));
 const data = reactive([
   {name:'插槽',com:markRaw(defineAsyncComponent(() => import('./page/插槽.vue')))},
   {name:'Tree',com:markRaw(defineAsyncComponent(() => import('./page/Tree.vue')))},
@@ -20,6 +20,7 @@ const data = reactive([
   {name:'适配vw',com:markRaw(defineAsyncComponent(() => import('./page/适配vw.vue')))},
   {name:'TronLink1',com:markRaw(defineAsyncComponent(() => import('./page/TronLink1.vue')))},
   {name:'TronLink',com:markRaw(defineAsyncComponent(() => import('./page/TronLink.vue')))},
+  {name:'TronLink2',com:markRaw(defineAsyncComponent(() => import('./page/TronLink2.vue')))},
   {name:'Modal二次封装js直接调用',com:markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue')))},
   {name:'网格布局grid响应式',com:markRaw(defineAsyncComponent(() => import('./page/网格布局grid响应式.vue')))},
 ])
