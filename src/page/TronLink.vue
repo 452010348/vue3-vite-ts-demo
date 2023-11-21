@@ -130,98 +130,7 @@ async function connect() {
   }
   loading.value = false;
 }
-// 兑换TRX到USDT
-async function swapTRXtoUSDT() {
-  try {
-    // JUSTSWAP TRX/USDT 合约地址和ABI
-    const contractAddress = 'TF17BgPaZYbz8oxbjhriubPDsA7ArKoLX3';
-    const abi = [
-      {
-        inputs: [
-          {
-            internalType: 'contract ITRC20',
-            name: 'tokenIn',
-            type: 'address',
-          },
-          {
-            internalType: 'contract ITRC20',
-            name: 'tokenOut',
-            type: 'address',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amountIn',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amountOutMin',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address[]',
-            name: 'path',
-            type: 'address[]',
-          },
-          {
-            internalType: 'address',
-            name: 'to',
-            type: 'address',
-          },
-          {
-            internalType: 'uint256',
-            name: 'deadline',
-            type: 'uint256',
-          },
-        ],
-        name: 'swap',
-        outputs: [
-          {
-            internalType: 'uint256[]',
-            name: 'amounts',
-            type: 'uint256[]',
-          },
-        ],
-        stateMutability: 'nonpayable',
-        type: 'function',
-      },
-    ];
 
-    // 创建 JUSTSWAP TRX/USDT 合约实例
-    const contract = await tronWeb.contract(abi, contractAddress);
-
-    // 获取需兑换的TRX数量
-    const amountIn = tronWeb.toSun(10);
-
-    // 设置输出金额最小期望值，这里设为0
-    const amountOutMin = 0;
-
-    // 设置兑换路径
-    const path = ['TRX', 'USDT'].map((name) =>
-      tronWeb.address.toHex(
-        name === 'TRX' ? 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t' : 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf'
-      )
-    );
-
-    // 设置接收USDT的账户
-    const to = 'TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq';
-
-    // 设置过期时间
-    const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
-
-    // 调用 JUSTSwap 的兑换方法
-    const result = await contract
-      .swap(path[0], path[path.length - 1], amountIn, amountOutMin, path, to, deadline)
-      .send({
-        feeLimit: 3_000_000, // 设定合理的费用限制
-        shouldPollResponse: true,
-      });
-
-    console.log(`兑换成功: 获得 ${result.amounts[result.amounts.length - 1]} USDT`);
-  } catch (error) {
-    console.log('兑换失败:', error);
-  }
-}
 async function swapEth() {
   loading.value = true;
   // 获取合约实例
@@ -247,35 +156,58 @@ class a {
   //1. 触发智能合约 (创建构建都一个意思)
   static async swapTokens() {
     loading.value = true;
-    const params = {
-      /** TRON 路由器智能合约的地址 */
-      // tronRouterAddrees: base58checkToHex('TSv6HwXSx6zTSBa8YyyN9k22PrjuaPXocj').toUpperCase(),
-      tronRouterAddrees: base58checkToHex('TXR4hiTCniVHKhWbe6ps9wNaGRxw28isPo').toUpperCase(),
-      /** 要调用的智能合约的函数名 */
-      functionName: 'swapEth(string,string,uint256)',
-      /** 包含一些可选交易选项的对象，例如手续费限制和交易价值等。 */
-      options: {
-        feeLimit: 1000000000,
-        callValue: tronWeb.toSun(200),
-      },
-      /** 作为输入传递给函数的参数对象的数组。数组中的每个对象都需要指定一个类型和一个值。 */
-      parameter: [
-        {
-          type: 'string',
-          value: 'USDT',
+    // const params = {
+    //   /** TRON 路由器智能合约的地址 */
+    //   // tronRouterAddrees: base58checkToHex('TSv6HwXSx6zTSBa8YyyN9k22PrjuaPXocj').toUpperCase(),
+    //   tronRouterAddrees: base58checkToHex('TXR4hiTCniVHKhWbe6ps9wNaGRxw28isPo').toUpperCase(),
+    //   /** 要调用的智能合约的函数名 */
+    //   functionName: 'swapEth(string,string,uint256)',
+    //   /** 包含一些可选交易选项的对象，例如手续费限制和交易价值等。 */
+    //   options: {
+    //     feeLimit: 1000000000,
+    //     callValue: tronWeb.toSun(200),
+    //   },
+    //   /** 作为输入传递给函数的参数对象的数组。数组中的每个对象都需要指定一个类型和一个值。 */
+    //   parameter: [
+    //     {
+    //       type: 'string',
+    //       value: 'USDT',
+    //     },
+    //     {
+    //       type: 'string',
+    //       value: '0x3CC7C99a9cB36d21c9a92e7d7119E680a021ABCD',
+    //     },
+    //     {
+    //       type: 'uint256',
+    //       value: '0x12462e5',
+    //     },
+    //   ],
+    //   // 执行交易的发起人地址。
+    //   fromAddress: base58checkToHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq').toUpperCase(),
+    // };
+    let params =  {
+        "tronRouterAddrees": tronWeb.address.toHex("TSv6HwXSx6zTSBa8YyyN9k22PrjuaPXocj"),
+        "functionName": "swapEth(string,string,uint256)",
+        "options": {
+            "feeLimit": 1000000000,
+            "callValue": tronWeb.toHex(tronWeb.toSun(200))
         },
-        {
-          type: 'string',
-          value: '0x3CC7C99a9cB36d21c9a92e7d7119E680a021ABCD',
-        },
-        {
-          type: 'uint256',
-          value: '0x12462e5',
-        },
-      ],
-      // 执行交易的发起人地址。
-      fromAddress: base58checkToHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq').toUpperCase(),
-    };
+        "parameter": [
+            {
+                "type": "string",
+                "value": "USDT"
+            },
+            {
+                "type": "string",
+                "value": "TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq"
+            },
+            {
+                "type": "uint256",
+                "value": "0x12462e5"
+            }
+        ],
+        "fromAddress": tronWeb.address.toHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')
+      }
     const arr = [params.tronRouterAddrees, params.functionName, params.options, params.parameter, params.fromAddress];
     let transaction = await tronWeb.transactionBuilder.triggerSmartContract(...arr);
     raw_data.transaction = transaction.transaction;

@@ -13,3 +13,14 @@ export function contractAddress_Nile() {
     // { symbol: 'PRIMO', address: 'TKNHpDX6Uh4DELc1S4dcwpdux7Tj6JrVKM', balance: 0, precision: 0 },
   ];
 }
+
+
+
+// Sepolia测试网络
+export function contractAddress_Sepolia() {
+  return [
+    { symbol: 'ETH', address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', balance: 0, precision: 0 },
+    { symbol: 'USDT', address: '0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7', balance: 0, precision: 6 },
+  ];
+}
+

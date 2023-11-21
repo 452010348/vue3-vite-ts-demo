@@ -114,19 +114,4 @@ async function allowance(owner_address: string, spender_address: string) {
     return Promise.reject(error);
   }
 }
-// async function allowance(owner_address: string, spender_address: string) {
-//   try {
-//     // 初始化 TRON 智能合约实例
-//     const contract = await window.tron?.tronWeb.contract().at('TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj');
-//     // 调用合约的 "approve" 函数来授权代币  定义授权代币的方法
-//     const aa = await contract
-//       .allowance('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq', 'TZ7o8G2u6oRPejzpddnavi89ure2iefuck')
-//       .call();
-//     console.log(aa);
-//     debugger;
-//   } catch (error) {
-//     debugger;
-//     return Promise.reject(error);
-//   }
-// }
 </script>
