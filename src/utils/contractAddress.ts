@@ -21,6 +21,8 @@ export function contractAddress_Sepolia() {
   return [
     { symbol: 'ETH', address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', balance: 0, precision: 0 },
     { symbol: 'USDT', address: '0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7', balance: 0, precision: 6 },
+    { symbol: 'USDC',address: '0x893e172174ab342c71cbabe42b94b7fadc89af65', balance: 0, precision: 6},
+    { symbol: 'BNB',address: '0x43a9e1b3BDc6D2C4271e1cB0D2e534F8CbCDbe5E', balance: 0, precision: 18},
+    { symbol: 'BUSD',address: '0xb5e62910dbcc21a3e1d79ac73581a43e19720743', balance: 0, precision: 18},
   ];
 }
-
