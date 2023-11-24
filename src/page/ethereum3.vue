@@ -19,7 +19,6 @@ const erc20aABI = [
   'function balanceOf(address owner) view returns (uint256)',
   'function decimals() view returns (uint8)',
   'function symbol() view returns (string)',
-  'function allowance(address owner, address spender) view returns (uint256)',
   'function approve(address spender, uint256 amount) returns (bool)',
   // Authenticated Functions
   'function transfer(address to, uint amount) returns (bool)',
@@ -35,7 +34,7 @@ class aa {
     const contractAddress = '0x1ed5685f345b2fa564ea4a670de1fde39e484751' //contract address
     const tokenContract = '0x55d398326f99059ff775485246999027b3197955' //token contract   居然是钱包地址
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
-    const contract = new ethers.Contract(tokenContract, erc20aABI, provider)
+    const contract = new ethers.Contract(tokenContract, abi, provider)
     debugger
     const fromNumber = 100 // 100 as a comparison quantity
     contract.allowance(walletAddress, contractAddress)
