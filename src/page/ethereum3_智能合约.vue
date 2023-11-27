@@ -6,52 +6,69 @@
 </template>
 
 <script setup lang="ts">
-// 导入 ethers.js 库
-// import { axios } from 'axios';
-import { ethers } from 'ethers';
-import { abi } from '../TronLink/abi';
+// 引入 Web3.js 库和相关依赖
+const Web3 = require('web3');
+const { abi: uniswapRouterAbi } = require('./path/to/uniswapV2Router.json');  // Uniswap V2 Router 合约 ABI
+const { ethers } = require('ethers');  // ethers.js 库
 
-const erc20aABI = [
-  // Read-Only Functions
-  'function balanceOf(address owner) view returns (uint256)',
-  'function decimals() view returns (uint8)',
-  'function symbol() view returns (string)',
-  'function approve(address spender, uint256 amount) returns (bool)',
-  // Authenticated Functions
-  'function transfer(address to, uint amount) returns (bool)',
-  // Events
-  'event Transfer(address indexed from, address indexed to, uint amount)',
-];
-let ethereum = (window as any).ethereum;
-class aa {
-  static async allowance() {
-    const walletAddress = '0x6F14653a91AC36935bdB15db6ccC66dC57593653'; // wallet address
-    const contractAddress = '0x1ed5685f345b2fa564ea4a670de1fde39e484751'; //contract address
-    const tokenContract = '0x55d398326f99059ff775485246999027b3197955'; //token contract   居然是钱包地址
-    const provider = new ethers.providers.Web3Provider(ethereum, 'any');
-    const contract = new ethers.Contract(tokenContract, abi, provider);
-    debugger;
-    const fromNumber = 100; // 100 as a comparison quantity
-    contract
-      .allowance(walletAddress, contractAddress)
-      .then((allowAmt) => {
-        contract.allowance;
-        console.log(allowAmt);
-        // const num = new BigNumber(
-        //  ethers.utils.formatUnits(allowAmt, 18),
-        // )
-        // const fromTokenNum = new BigNumber(fromNumber)
-        // console.log(num.toString())
-        // console.log(fromTokenNum.toString())
-        // if (num.gt(fromTokenNum)) {
-        //     console.log('don`t need Approved')
-        // } else {
-        //     console.log('need Approved')
-        // }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+// 创建一个 Web3 实例
+const web3 = new Web3('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');  // 替换为自己的 Infura 项目 ID
+
+// 定义相关参数
+const privateKey = 'YOUR_PRIVATE_KEY';  // 替换为您自己的以太坊账户的私钥
+const walletAddress = 'YOUR_WALLET_ADDRESS';  // 替换为您自己的以太坊账户地址
+const uniswapRouterAddress = 'UNISWAP_ROUTER_ADDRESS';  // 替换为 Uniswap V2 Router 合约的地址
+const ethAmount = web3.utils.toWei('1', 'ether');  // 要兑换的 ETH 数量（单位为 Wei）
+
+// 创建一个以太坊钱包
+const wallet = new ethers.Wallet(privateKey);
+
+// 使用钱包连接到以太坊网络
+const provider = new ethers.providers.InfuraProvider('mainnet', 'YOUR_INFURA_PROJECT_ID');  // 替换为自己的 Infura 项目 ID
+const connectedWallet = wallet.connect(provider);
+
+// 获取 Uniswap V2 Router 合约实例
+const uniswapRouter = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
+
+// 交易函数
+async function swapETHToUSDT() {
+  // 构建交易参数
+  const path = [web3.utils.toChecksumAddress('ETH_ADDRESS'), web3.utils.toChecksumAddress('USDT_ADDRESS')];  // 替换为对应代币的地址
+  const deadline = Math.floor(Date.now() / 1000) + 60 * 20;  // 设置 deadline，确保交易在指定时间内完成
+  const amountOutMin = 0;  // 设置期望最小输出数量
+
+  // 构建调用合约的数据
+  const txData = uniswapRouter.methods.swapExactETHForTokens(
+    amountOutMin,
+    path,
+    walletAddress,
+    deadline
+  ).encodeABI();
+
+  // 获取以太坊当前的 gas 价格
+  const gasPrice = await web3.eth.getGasPrice();
+
+  // 构建交易对象
+  const transactionObject = {
+    from: walletAddress,
+    to: uniswapRouterAddress,
+    value: ethAmount,
+    gasPrice: gasPrice,
+    gas: 300000  // 设置 gas 数量，根据具体情况调整
+  };
+
+  // 使用钱包对交易进行签名
+  const signedTransaction = await connectedWallet.signTransaction(transactionObject);
+
+  try {
+    // 发送交易
+    const receipt = await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
+    console.log('Transaction receipt:', receipt);
+  } catch (error) {
+    console.error('Failed to send transaction:', error);
   }
 }
+
+// 执行交易函数
+swapETHToUSDT();
 </script>
