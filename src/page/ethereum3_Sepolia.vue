@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>ethereum3_Sepolia</h2>
-    <a-button @click="connect()" v-if="!ethereum.selectedAddress">连接钱包</a-button>
+    <a-button @click="connect()" v-if="!selectedAddress">连接钱包</a-button>
     <template v-else>
       <p>钱包列表：{{ walletList }}</p>
       <p>当前钱包：{{ selectedAddress }}</p>
