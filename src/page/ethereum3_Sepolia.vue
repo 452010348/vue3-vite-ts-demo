@@ -61,6 +61,8 @@ async function connect() {
     // 获取该地址的余额
     balance.value = await provider.getBalance(ethereum.selectedAddress).then((res) => ethers.formatEther(res));
     // 获取该地址的一些其他信息
+    const network =await provider.getNetwork();
+    console.log('>> network', JSON.stringify(network,null,2) );
     chainId.value = await provider.getNetwork().then((res) => String(res.chainId));
     console.log('>> userList', walletList.value);
     console.log('>> selectedAddress', selectedAddress.value);
