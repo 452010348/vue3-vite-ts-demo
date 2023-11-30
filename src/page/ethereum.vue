@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>ethereum</h2>
-
+    <p>钱包地址: {{ ethereum?.selectedAddress}}</p>
     <div class="flex">
       <!-- <button @click="onClick()">trx转usdt</button> -->
       <!-- <a-button @click="a.eth_sendTransaction">转账</a-button> -->
@@ -9,8 +9,8 @@
       <a-input v-model:value="walletData.address"></a-input>
     </div>
     <div class="flex">
-      <a-button @click="swapEth">转账ETH 到</a-button>
-      <a-button @click="wb3SwapETH">转账ETH 到</a-button>
+      <a-button @click="swapEth">web3.eth.sendTransactio</a-button>
+      <!-- <a-button @click="wb3SwapETH">转账ETH 到</a-button> -->
     </div>
   </div>
 </template>
@@ -20,20 +20,30 @@
 import { reactive } from 'vue';
 import { ethers, BrowserProvider, JsonRpcProvider } from 'ethers';
 import { abi } from '../TronLink/abi';
-// import Web3 from 'web3'
-// window.Web3 = Web3;
-
+import Web3 from 'web3'
+window.Web3 = Web3;
 window.ethers = ethers;
+
+let ethereum = (window as any)?.ethereum;
+let provider = null as BrowserProvider | JsonRpcProvider | null;
+let web3:Web3
+
+
 
 const walletData = reactive({
   address: '0x78ee24Dec10b9DE1ae64eF7B0bE20D4c3DFb406E',
 });
-let ethereum = (window as any)?.ethereum;
-let provider = null as BrowserProvider | JsonRpcProvider | null;
+
 // let signer = null;
 if (ethereum == null) {
   console.log('MetaMask not installed; using read-only defaults');
   provider = ethers.getDefaultProvider() as BrowserProvider;
+  web3 = new Web3(ethereum);
+
+  // await provider.enable()  
+  // await ethereum.enable()
+  // walletData.address = ethereum.selectedAddress
+
 } else {
   provider = new ethers.BrowserProvider(ethereum);
   // signer = await provider.getSigner();
@@ -63,9 +73,9 @@ const getCurrentProviderWithSigner = async () => {
 };
 
 const sendETHByMetamask = async () => {
-  const signer = await provider.getSigner();
   const amount = ethers.parseEther('0.001');
-  debugger;
+
+  const signer = await provider.getSigner();
   const signTx = await signer.sendTransaction({
     to: walletData.address,
     value: amount,
@@ -76,29 +86,22 @@ const sendETHByMetamask = async () => {
 
 // d
 async function swapEth() {
-  try {
-    //1. 创建交易：
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = await provider.getSigner();
-    const amount = ethers.parseEther('0.001');
+  const amount = ethers.parseEther('0.001').toString();
+  debugger;
+  const signer = await provider.getSigner();
+  const signTx = await signer.sendTransaction({
+    to: walletData.address,
+    value: amount,
+  });
+  // try {
+  //    web3.eth.sendTransaction({
+  //       // from: '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe',
+  //       to: '0xeA5932F2f446ca61D41425FA7a0A560A413a1F0B',
+  //       value: amount || '1000000000000000'
+  //   })
+  // } catch (error) {
 
-    const transactionObject = {
-      to: walletData.address,
-      value: amount,
-    };
-    const createTx = await signer.populateTransaction(transactionObject);
-    console.log('创建交易:>>', createTx);
-    console.log(signer.signTransaction);
-    //2. 签名交易：
-    const signedTx = await signer.signTransaction(createTx);
-    console.log('签名交易:>>', signedTx);
-
-    //3. 广播交易（发送已签名的交易）：
-    const broadcastTx = await provider.sendTransaction(signedTx);
-    console.log('广播交易:>>', broadcastTx);
-  } catch (error) {
-    debugger;
-  }
+  // }
 }
 
 // async function wb3SwapETH() {
