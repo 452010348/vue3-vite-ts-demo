@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { reactive, shallowRef, markRaw, defineAsyncComponent } from 'vue';
 // const comId = shallowRef('');
-const comId = shallowRef(defineAsyncComponent(() => import('./page/ethereum3_智能合约2.vue')));
+const comId = shallowRef(defineAsyncComponent(() => import('./page/ethereum.vue')));
 // const comId = shallowRef(defineAsyncComponent(() => import('./page/TronLink2.vue')));
 const data = reactive([
   { name: '插槽', com: markRaw(defineAsyncComponent(() => import('./page/插槽.vue'))) },
@@ -23,11 +23,7 @@ const data = reactive([
   { name: 'TronLink2', com: markRaw(defineAsyncComponent(() => import('./page/TronLink2.vue'))) },
 
   { name: 'ethereum', com: markRaw(defineAsyncComponent(() => import('./page/ethereum.vue'))) },
-  { name: 'ethereum2', com: markRaw(defineAsyncComponent(() => import('./page/ethereum2.vue'))) },
-  { name: 'ethereum3', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3.vue'))) },
   { name: 'ethereum3_Sepolia', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_Sepolia.vue'))) },
-  { name: 'ethereum3_智能合约', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_智能合约.vue'))) },
-  { name: 'ethereum3_智能合约2', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_智能合约2.vue'))) },
   {
     name: 'Modal二次封装js直接调用',
     com: markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue'))),

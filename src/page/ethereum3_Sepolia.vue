@@ -272,28 +272,6 @@ async function sigMsg() {
   }
 }
 
-// let TokenABI = [
-// 'function exchangeToken(address _to, uint256 _value) external returns (bool);'
-// ]
-// // let tx = new ethers.Transaction();
-// // console.log('>>tx', JSON.stringify(tx, null, 2));
-// // debugger;
-
-// // 构造交易参数
-// const txParams = {
-//   gasLimit: 600000,
-//   value: ethers.parseEther('0.1'),
-// };
-// // 创建一个合约实例
-// const Token = new ethers.Contract(tokenAddress, TokenABI, wallet);
-// // 调用合约（exchangeToken 函数）进行交易
-// const tx = await Token.exchangeToken(toAddress, exchangeValue, txParams);
-
-// // 使用钱包签名交易
-// const signedTx = await new ethers.wallet.sign(tx);
-
-// // 发送交易到以太坊网络
-// const txHash = await provider.sendTransaction(signedTx);
 
 
 const networkList = reactive([
