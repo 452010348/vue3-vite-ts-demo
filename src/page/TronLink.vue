@@ -83,10 +83,12 @@
 import { ref, reactive, toRaw, computed, watch } from 'vue';
 import { TronLinkAdapter } from '@tronweb3/tronwallet-adapters';
 import { abi } from '../TronLink/abi';
-import { base58checkToHex } from '../utils/helpers';
+// import { base58checkToHex } from '../utils/helpers';
 import { contractAddress_Nile } from '../utils/contractAddress';
 import { message } from 'ant-design-vue';
 import axios from 'axios';
+
+
 let tronWeb = (window as any).tronWeb ?? null;
 // 主网USDT 合约地址
 // const contractAddressTronGridUSDT = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
@@ -506,5 +508,23 @@ class b {
     }
     loading.value = false;
   }
+}
+
+
+
+
+/** 获取二维码地址 */
+function qrCode(params:{
+  amount:string,
+  toAddress:string,
+  tokenAddress:string,
+  decimal:number
+}){
+  // const amount = ethers.parseUnits(String(params.amount), params.decimal)
+  return /^0xe+$/.test(params.tokenAddress) ?
+    // 原生币
+    `tron:${params.toAddress}?amount=${params.amount.toString()}`: 
+    // 代币
+    `tron:${params.tokenAddress}/transfer?address=${params.toAddress}&amount=${params.amount.toString()}`
 }
 </script>

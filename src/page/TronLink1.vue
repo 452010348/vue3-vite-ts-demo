@@ -14,6 +14,12 @@
         <button @click="fetchBalance()">获取USDT余额</button> -->
         <button @click="sendTrxToUsdt(200,'TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')">STR->USDT,自己到钱包1</button>
         <button @click="sendTrxToUsdt(200,'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h')">STR->USDT,自己到钱包2</button>
+
+
+        <div>
+        <p>原生币：扫码转账到：{{ toAddress }}</p>
+        <img :src="qrcode" alt="QR Code" />
+      </div>
     </div>
 </template>
 
@@ -56,9 +62,14 @@ export const usdtContractAddress = new Map<string, string>([
 //  Token / Account / Contract / Txn Hash / Block
 </script>
 <script setup lang="ts">
-
-
+import { ref } from "vue";
 import { onUnmounted } from 'vue';
+import { useQRCode } from '@vueuse/integrations/useQRCode'
+import { ethers } from 'ethers';
+
+let toAddress = `TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq`
+const qrcode = useQRCode(toAddress)
+
 
 const msgsage = (e: any) => {
     //账户消息发生改变
@@ -220,5 +231,19 @@ async function sendTrxToUsdt(amount:number, toAddress: string) {
   }
 }
 
-
+/** 获取二维码地址 */
+function qrCode(params:{
+  amount:string,
+  toAddress:string,
+  tokenAddress:string,
+  decimal:number
+}){
+//   const amount = ethers.parseUnits(String(params.amount), params.decimal)
+  const amount = ethers.toBeHex(ethers.parseUnits(String(params.amount), params.decimal))
+  return /^0xe+$/.test(params.tokenAddress) ?
+    // 原生币
+    `tron:${params.toAddress}?value=${amount.toString()}`: 
+    // 代币
+    `tron:${params.tokenAddress}/transfer?address=${params.toAddress}&value=${amount.toString()}`
+}
 </script>

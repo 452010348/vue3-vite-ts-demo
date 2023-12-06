@@ -32,10 +32,11 @@
     "axios": "^1.4.0",
     "bs58check": "^3.0.1",
     "ethers": "6.8.1",
-    "web3": "^1.2.6",
     "lodash-es": "^4.17.21",
+    "qrcode": "^1.5.3",
     "vue": "^3.3.4",
     "vue-router": "4",
+    "web3": "^1.2.6",
     "xstate": "^4.38.2"
   },
   "devDependencies": {
