@@ -18,17 +18,15 @@ const data = reactive([
   { name: '缓存组件', com: markRaw(defineAsyncComponent(() => import('./page/缓存组件.vue'))) },
   { name: '适配rem', com: markRaw(defineAsyncComponent(() => import('./page/适配rem.vue'))) },
   { name: '适配vw', com: markRaw(defineAsyncComponent(() => import('./page/适配vw.vue'))) },
+  { name: 'Modal二次封装js直接调用',com: markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue'))),},
+  { name: '网格布局grid响应式', com: markRaw(defineAsyncComponent(() => import('./page/网格布局grid响应式.vue'))) },
+
   { name: 'TronLink1', com: markRaw(defineAsyncComponent(() => import('./page/TronLink1.vue'))) },
   { name: 'TronLink', com: markRaw(defineAsyncComponent(() => import('./page/TronLink.vue'))) },
   { name: 'TronLink2', com: markRaw(defineAsyncComponent(() => import('./page/TronLink2.vue'))) },
-
   { name: 'ethereum', com: markRaw(defineAsyncComponent(() => import('./page/ethereum.vue'))) },
   { name: 'ethereum3_Sepolia', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_Sepolia.vue'))) },
-  {
-    name: 'Modal二次封装js直接调用',
-    com: markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue'))),
-  },
-  { name: '网格布局grid响应式', com: markRaw(defineAsyncComponent(() => import('./page/网格布局grid响应式.vue'))) },
+  { name: 'Bitget', com: markRaw(defineAsyncComponent(() => import('./page/Bitget.vue'))) },
 ]);
 const onTab = (item: any, index: number) => {
   console.log(item, index);

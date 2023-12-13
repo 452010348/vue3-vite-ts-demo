@@ -30,6 +30,7 @@
     "@xstate/vue": "^2.0.0",
     "ant-design-vue": "^4.0.6",
     "axios": "^1.4.0",
+    "bitkeep-web3modal": "^1.9.10",
     "bs58check": "^3.0.1",
     "ethers": "6.8.1",
     "lodash-es": "^4.17.21",
@@ -37,6 +38,7 @@
     "vue": "^3.3.4",
     "vue-router": "4",
     "web3": "^1.2.6",
+    "web3modal": "^1.9.12",
     "xstate": "^4.38.2"
   },
   "devDependencies": {
