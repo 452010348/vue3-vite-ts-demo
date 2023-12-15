@@ -28,9 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useQRCode } from '@vueuse/integrations/useQRCode'
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import { ethers } from 'ethers';
 // import { abi } from '../TronLink/abi';
 import Web3 from 'web3'

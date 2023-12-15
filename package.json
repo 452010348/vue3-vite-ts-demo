@@ -35,6 +35,7 @@
     "ethers": "6.8.1",
     "lodash-es": "^4.17.21",
     "qrcode": "^1.5.3",
+    "sui-wallet": "0.1.1",
     "vue": "^3.3.4",
     "vue-router": "4",
     "web3": "^1.2.6",
