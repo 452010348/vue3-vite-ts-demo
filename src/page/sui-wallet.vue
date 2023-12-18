@@ -9,35 +9,77 @@
     {{ Web3.utils.toBN('123000').mul(Web3.utils.toBN(2)) }}
     <br>
     <br>
-    <div class="flex">
-      <a-button @click="connect()">连接</a-button>
-      <a-button @click="getBalance()">获取ETH余额</a-button>
-      <a-button @click="getTokenBalance()">获取代币余额</a-button>
-      
-      <br>
-      {{ walletData }}
-    </div>
+    <button @click="connect()">Connect to Sui</button>
+    <!-- <SignInWithSui ref="$sui" :visible="false" defaultChain="sui:testnet" /> -->
+    <SignInWithSui ref="$sui" :visible="false" defaultChain="sui:mainnet" />
+
+
+    <!-- <SignInWithSuiButton @provider="onProvider"  defaultChain="sui:testnet" /> -->
+    <!-- <SignInWithSuiButton @suiMaster="onSuiMaster" defaultChain="sui:testnet" /> -->
+    <SignInWithSuiButton @connected="onConnected" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { ethers } from 'ethers';
 import Web3 from 'web3'
-import { message } from "ant-design-vue"
+// import { message } from "ant-design-vue"
+import { SignInWithSui , SignInWithSuiButton} from 'vue-sui';
+import { toRef, toRefs } from '@vueuse/core';
+const $sui = ref()
+async function onConnected(suiInBrowser:any) {
+    const provider = await suiInBrowser.getProvider(); // instance of JsonRpcProvider
+    const suiMaster = await suiInBrowser.getSuiMaster(); // instance of suidouble SuiMaster instance
+    const currentChain = suiInBrowser.getCurrentChain(); // chain id, `sui:mainnet`  `sui:testnet` etc
+    const connectedAddress = suiInBrowser.getAddress(); // "0x42ff3..."
+}
+function connect(){
+  $sui.value.onClick()
+  console.log( "connect", toRefs($sui.value) )
+}
 
-const walletData = reactive({
-  /** 接受地址 */
-  address: '0xeA5932F2f446ca61D41425FA7a0A560A413a1F0B',
-  /** 支付金额 */
-  amount:0.01,
-});
+onMounted(()=>{
+  console.log( "onMounted", toRefs($sui.value) )
 
-import { Client } from 'sui-wallet';
-// {
-//   // 设置 SUI 钱包的连接参数，如节点地址等 最新版不需要
+
+  $sui.value.provider = function(onProvider){
+    debugger
+  }
+})
+// const onProvider = async (provider) => {
+//     const data = await provider.getObject({id: '0xcc2bd176a478baea9a0de7a24cd927661cc6e860d5bacecb9a138ef20dbab231'});
+//     console.log( data );
 // }
-const client = new Client();
+// const onAdapter = async (adapter) => {
+//     const tx = new $sui.value.TransactionBlock();
+//     const data = await adapter.signAndExecuteTransactionBlock({transactionBlock: tx});
+//     console.log( data );
+// }
+
+
+// async function onSuiMaster(suiMaster) {
+//   debugger
+//     const currentChain = suiMaster.connectedChain; // chain id, `sui:mainnet`  `sui:testnet` etc
+//     const instanceN = suiMaster.instanceN; // you may get few events when state changed, so you may check if it's same instance you had before
+
+//     // and interact with blockchain. Read more in suidouble documentation
+//     const pkg = suiMaster.package({
+//         id: packageId,
+//     });
+//     const module = await pkg.getModule('suidouble_color');
+
+//     const eventsResponse = await module.fetchEvents({eventTypeName: 'ColorCreated', order: 'descending'});
+//     // if you are connected, you can also execute contract methods:
+//     let result = await module.moveCall('mint', ['test', 23]);
+//     // etc
+// }
+
+// import { Client } from 'sui-wallet';
+// // {
+// //   // 设置 SUI 钱包的连接参数，如节点地址等 最新版不需要
+// // }
+// const client = new Client();
 
 // // 获取钱包地址
 
