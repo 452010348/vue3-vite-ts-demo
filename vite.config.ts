@@ -21,4 +21,30 @@ export default defineConfig({
       },
     },
   },
+  // build: {
+  //   target: 'es2020',
+  //   cssTarget: 'chrome80',
+  //   reportCompressedSize: true,
+  //   minify: 'terser',
+  //   terserOptions: {
+  //     compress: {
+  //       drop_console: true,
+  //       drop_debugger: true,
+  //     },
+  //   },
+  // },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+      plugins: [
+        // NodeModulesPolyfillPlugin(),
+        // NodeGlobalsPolyfillPlugin({
+        //   process: false,
+        //   buffer: true,
+        // }),
+      ],
+    },
+  },
 });
