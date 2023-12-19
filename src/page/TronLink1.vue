@@ -3,7 +3,7 @@
         <button @click="getTronWeb">
             <p>如果用户连接过此 DApp， 则可以直接获取tronLink.tronWeb 。</p>
             <p>如果未连接过，则可以调用请求连接后获取。</p>
-       </button>
+        </button>
         <br>
         <button @click="sendTrx()">普通转账</button>
         <button @click="getBalance()">获取金额</button>
@@ -12,14 +12,14 @@
 
         <!-- <button @click="transfer()">trx转usdt</button>
         <button @click="fetchBalance()">获取USDT余额</button> -->
-        <button @click="sendTrxToUsdt(200,'TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')">STR->USDT,自己到钱包1</button>
-        <button @click="sendTrxToUsdt(200,'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h')">STR->USDT,自己到钱包2</button>
+        <button @click="sendTrxToUsdt(200, 'TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')">STR->USDT,自己到钱包1</button>
+        <button @click="sendTrxToUsdt(200, 'TVpx8mkt7CjmZ8VQdmgAZDF6tMtLfKCL1h')">STR->USDT,自己到钱包2</button>
 
 
         <div>
-        <p>原生币：扫码转账到：{{ toAddress }}</p>
-        <img :src="qrcode" alt="QR Code" />
-      </div>
+            <p>原生币：扫码转账到：{{ toAddress }}</p>
+            <img :src="qrcode" alt="QR Code" />
+        </div>
     </div>
 </template>
 
@@ -169,19 +169,19 @@ async function getBlockByNumber(num = 0) {
     }
 }
 // 获取账户
-async function getAccount(address=tronLink.tronWeb.defaultAddress.base58){
+async function getAccount(address = tronLink.tronWeb.defaultAddress.base58) {
     try {
         await isPlug();
         const res = await tronLink.tronWeb.trx.getAccount(address);
-        console.log( res );
-        return Promise.resolve( res );
+        console.log(res);
+        return Promise.resolve(res);
     } catch (error) {
-        console.log( error )
+        console.log(error)
     }
 }
 
 // 获取金额
-async function getBalance(address:string= tronLink.tronWeb.defaultAddress.base58) {
+async function getBalance(address: string = tronLink.tronWeb.defaultAddress.base58) {
     try {
         await isPlug();
         const res = await tronLink.tronWeb.trx.getBalance(address);
@@ -196,54 +196,39 @@ async function getBalance(address:string= tronLink.tronWeb.defaultAddress.base58
 
 
 // 进行 TRX 到 USDT 的转账   测试后发现 原金额以扣除 但转账后金额一直不到账
-async function sendTrxToUsdt(amount:number, toAddress: string) {
-  try {
-    await getTronWeb();
-    await tronWeb.ready;
-    const fromAddress = tronWeb.defaultAddress.base58;  // 获取当前地址
+async function sendTrxToUsdt(amount: number, toAddress: string) {
+    try {
+        await getTronWeb();
+        await tronWeb.ready;
+        const fromAddress = tronWeb.defaultAddress.base58;  // 获取当前地址
 
-    // 获取合约地址
-    const usdtContractAddress = 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf';  // USDT 的合约地址
+        // 获取合约地址
+        const usdtContractAddress = 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf';  // USDT 的合约地址
 
-      // 获取当前地址的 TRX 余额
-      const trxBalance = await tronWeb.trx.getBalance(fromAddress);
-        console.log( trxBalance );
-      // 获取 USDT 合约实例
-      const usdtContract = await tronWeb.contract().at(usdtContractAddress);
-      
-      // 获取 USDT 合约的 decimals（小数位数）
-      const decimals = await usdtContract.decimals().call();
+        // 获取当前地址的 TRX 余额
+        const trxBalance = await tronWeb.trx.getBalance(fromAddress);
+        console.log(trxBalance);
+        // 获取 USDT 合约实例
+        const usdtContract = await tronWeb.contract().at(usdtContractAddress);
 
-      // 计算转换后的 USDT 金额，注意要根据小数位数进行调整
-      const usdtAmount = amount * (10 ** decimals);
-      if (isNaN(usdtAmount)) {
+        // 获取 USDT 合约的 decimals（小数位数）
+        const decimals = await usdtContract.decimals().call();
+
+        // 计算转换后的 USDT 金额，注意要根据小数位数进行调整
+        const usdtAmount = amount * (10 ** decimals);
+        if (isNaN(usdtAmount)) {
             throw new Error('Invalid amount. Please provide a valid number.');
         }
-      // 构建转账交易
-      const transferTransaction = await usdtContract.transfer(toAddress, usdtAmount).send();
+        // 构建转账交易
+        const transferTransaction = await usdtContract.transfer(toAddress, usdtAmount).send();
 
-      console.log('转账交易成功：', transferTransaction);
+        console.log('转账交易成功：', transferTransaction);
 
-      return Promise.resolve(transferTransaction);
-  } catch (error) {
-      console.log('转账交易失败：', error);
-      return Promise.reject(error);
-  }
+        return Promise.resolve(transferTransaction);
+    } catch (error) {
+        console.log('转账交易失败：', error);
+        return Promise.reject(error);
+    }
 }
 
-/** 获取二维码地址 */
-function qrCode(params:{
-  amount:string,
-  toAddress:string,
-  tokenAddress:string,
-  decimal:number
-}){
-//   const amount = ethers.parseUnits(String(params.amount), params.decimal)
-  const amount = ethers.toBeHex(ethers.parseUnits(String(params.amount), params.decimal))
-  return /^0xe+$/.test(params.tokenAddress) ?
-    // 原生币
-    `tron:${params.toAddress}?value=${amount.toString()}`: 
-    // 代币
-    `tron:${params.tokenAddress}/transfer?address=${params.toAddress}&value=${amount.toString()}`
-}
 </script>

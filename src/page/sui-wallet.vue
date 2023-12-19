@@ -2,42 +2,95 @@
   <div>
     <h2>sui-wallet</h2>
     <p>钱包地址: </p>
-    {{ ethers.toBeHex('1') }}
-    {{ ethers.parseUnits('0.01', 18) }}
-    {{ ethers.formatUnits('1000', 3) }}
     {{ Web3.utils.toWei('1', 'gwei') }}
     {{ Web3.utils.toBN('123000').mul(Web3.utils.toBN(2)) }}
     <br>
     <br>
     <div class="flex">
-      <a-button @click="connect()">连接</a-button>
+      <!-- <a-button @click="connect()">连接</a-button>
       <a-button @click="getBalance()">获取ETH余额</a-button>
-      <a-button @click="getTokenBalance()">获取代币余额</a-button>
-      
-      <br>
-      {{ walletData }}
+      <a-button @click="getTokenBalance()">获取代币余额</a-button> -->
+
+      <!-- <pre style="font-size: 20px;">{{ Object.keys(sui) }}</pre> -->
+      <!-- <button @click="suiRef.onClick();">Connect to Sui</button> -->
+
+
+
+      <!-- <pre>{{ Object.keys(sui) }}</pre> -->
+
+
     </div>
+    <AButton @click="onMountedRef">Connect to Sui</AButton>
+    <SignInWithSui ref="$sui" :visible="false" />
+    <SignInWithSuiButton @connected="onConnected" />
+
+    <SignInWithSuiButton @adapter="onAdapter" defaultChain="sui:mainnet" />
+
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { ethers } from 'ethers';
 import Web3 from 'web3'
-import { message } from "ant-design-vue"
+// import { message } from "ant-design-vue"
+// const walletData = reactive({
+//   /** 接受地址 */
+//   address: '0xeA5932F2f446ca61D41425FA7a0A560A413a1F0B',
+//   /** 支付金额 */
+//   amount: 0.01,
+// });
 
-const walletData = reactive({
-  /** 接受地址 */
-  address: '0xeA5932F2f446ca61D41425FA7a0A560A413a1F0B',
-  /** 支付金额 */
-  amount:0.01,
-});
+// import * as sui from "@mysten/dapp-kit";
+// const currentAccount = sui.useCurrentAccount();
+// console.log(currentAccount);
+import { SignInWithSui, SignInWithSuiButton } from 'vue-sui';
 
-import { Client } from 'sui-wallet';
+// 声明响应式引用
+const $sui = ref();
+
+// 绑定引用
+const onMountedRef = () => {
+  $sui.value.onClick()
+  console.log(Object.keys($sui.value))
+};
+
+const onAdapter = async (adapter) => {
+  debugger
+  const tx = new $sui.TransactionBlock();
+  const data = await adapter.signAndExecuteTransactionBlock({ transactionBlock: tx });
+  console.log(data)
+}
+
+
+
+
+
+async function onConnected(suiInBrowser: any) {
+  console.log('sui-wallet.vue onConnected')
+  const provider = await suiInBrowser.getProvider(); // instance of JsonRpcProvider
+  const suiMaster = await suiInBrowser.getSuiMaster(); // instance of suidouble SuiMaster instance
+  const currentChain = suiInBrowser.getCurrentChain(); // chain id, `sui:mainnet`  `sui:testnet` etc
+  const connectedAddress = suiInBrowser.getAddress(); // "0x42ff3..."
+  console.log(provider, suiMaster, currentChain, connectedAddress)
+}
+// console.log(suiRef.value.$refs.sui);
+// const networkConfig = {
+//   "localnet": "http://127.0.0.1:9000",
+//   "devnet": "https://fullnode.devnet.sui.io:443",
+//   "testnet": "https://fullnode.testnet.sui.io:443",
+//   "mainnet": "https://fullnode.mainnet.sui.io:443"
+// }
+
+
+
+// import { Client } from 'sui-wallet';
 // {
 //   // 设置 SUI 钱包的连接参数，如节点地址等 最新版不需要
 // }
-const client = new Client();
+// const client = new Client();
+// console.log(client)
 
 // // 获取钱包地址
 

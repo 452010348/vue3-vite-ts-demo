@@ -60,9 +60,7 @@
             <a-button :loading="loading" @click="transfer.sendRawTransaction">3.后端广播</a-button>
           </div> -->
         </section>
-        <pre
-          class="flex-1"
-          style="
+        <pre class="flex-1" style="
             border: 1px solid red;
             overflow: auto;
             position: fixed;
@@ -70,9 +68,7 @@
             left: 40%;
             right: 10px;
             bottom: 10px;
-          "
-          >{{ raw_data }}</pre
-        >
+          ">{{ raw_data }}</pre>
       </main>
     </template>
   </div>
@@ -187,29 +183,29 @@ class a {
     //   // 执行交易的发起人地址。
     //   fromAddress: base58checkToHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq').toUpperCase(),
     // };
-    let params =  {
-        "tronRouterAddrees": tronWeb.address.toHex("TSv6HwXSx6zTSBa8YyyN9k22PrjuaPXocj"),
-        "functionName": "swapEth(string,string,uint256)",
-        "options": {
-            "feeLimit": 1000000000,
-            "callValue": tronWeb.toHex(tronWeb.toSun(200))
+    let params = {
+      "tronRouterAddrees": tronWeb.address.toHex("TSv6HwXSx6zTSBa8YyyN9k22PrjuaPXocj"),
+      "functionName": "swapEth(string,string,uint256)",
+      "options": {
+        "feeLimit": 1000000000,
+        "callValue": tronWeb.toHex(tronWeb.toSun(200))
+      },
+      "parameter": [
+        {
+          "type": "string",
+          "value": "USDT"
         },
-        "parameter": [
-            {
-                "type": "string",
-                "value": "USDT"
-            },
-            {
-                "type": "string",
-                "value": "TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq"
-            },
-            {
-                "type": "uint256",
-                "value": "0x12462e5"
-            }
-        ],
-        "fromAddress": tronWeb.address.toHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')
-      }
+        {
+          "type": "string",
+          "value": "TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq"
+        },
+        {
+          "type": "uint256",
+          "value": "0x12462e5"
+        }
+      ],
+      "fromAddress": tronWeb.address.toHex('TAgv2M2Yirj9WDaYUdXWGJkxZqoLvvPRsq')
+    }
     const arr = [params.tronRouterAddrees, params.functionName, params.options, params.parameter, params.fromAddress];
     let transaction = await tronWeb.transactionBuilder.triggerSmartContract(...arr);
     raw_data.transaction = transaction.transaction;
@@ -513,18 +509,5 @@ class b {
 
 
 
-/** 获取二维码地址 */
-function qrCode(params:{
-  amount:string,
-  toAddress:string,
-  tokenAddress:string,
-  decimal:number
-}){
-  // const amount = ethers.parseUnits(String(params.amount), params.decimal)
-  return /^0xe+$/.test(params.tokenAddress) ?
-    // 原生币
-    `tron:${params.toAddress}?amount=${params.amount.toString()}`: 
-    // 代币
-    `tron:${params.tokenAddress}/transfer?address=${params.toAddress}&amount=${params.amount.toString()}`
-}
+
 </script>

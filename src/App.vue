@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { reactive, shallowRef, markRaw, defineAsyncComponent } from 'vue';
 // const comId = shallowRef('');
-const comId = shallowRef(defineAsyncComponent(() => import('./page/sui-wallet.vue')));
+const comId = shallowRef(defineAsyncComponent(() => import('./page/Walletconnect.vue')));
 // const comId = shallowRef(defineAsyncComponent(() => import('./page/TronLink2.vue')));
 const data = reactive([
   { name: '插槽', com: markRaw(defineAsyncComponent(() => import('./page/插槽.vue'))) },
@@ -18,7 +18,7 @@ const data = reactive([
   { name: '缓存组件', com: markRaw(defineAsyncComponent(() => import('./page/缓存组件.vue'))) },
   { name: '适配rem', com: markRaw(defineAsyncComponent(() => import('./page/适配rem.vue'))) },
   { name: '适配vw', com: markRaw(defineAsyncComponent(() => import('./page/适配vw.vue'))) },
-  { name: 'Modal二次封装js直接调用',com: markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue'))),},
+  { name: 'Modal二次封装js直接调用', com: markRaw(defineAsyncComponent(() => import('./page/Modal二次封装js直接调用.vue'))), },
   { name: '网格布局grid响应式', com: markRaw(defineAsyncComponent(() => import('./page/网格布局grid响应式.vue'))) },
 
   { name: 'TronLink1', com: markRaw(defineAsyncComponent(() => import('./page/TronLink1.vue'))) },
@@ -28,6 +28,7 @@ const data = reactive([
   { name: 'ethereum3_Sepolia', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_Sepolia.vue'))) },
   { name: 'Bitget', com: markRaw(defineAsyncComponent(() => import('./page/Bitget.vue'))) },
   { name: 'sui-wallet', com: markRaw(defineAsyncComponent(() => import('./page/sui-wallet.vue'))) },
+  { name: 'Walletconnect', com: markRaw(defineAsyncComponent(() => import('./page/Walletconnect.vue'))) },
 ]);
 const onTab = (item: any, index: number) => {
   console.log(item, index);
