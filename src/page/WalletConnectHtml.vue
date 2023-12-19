@@ -1,10 +1,8 @@
 <script setup lang="ts">
 
 // import * as chains_A from 'viem/chains'
-// import * as core from "@wagmi/core"
+import * as core from "@wagmi/core"
 import * as chainObj from '@wagmi/core/chains';
-console.log( Object.values(chainObj) )
-debugger
 
 import {
   configureChains,
@@ -23,18 +21,16 @@ import {
 } from '@wagmi/core';
 
 //测试网
-import { sepolia, lineaTestnet} from 'viem/chains'
+import { sepolia, lineaTestnet } from 'viem/chains'
 //正式网
-import { bsc } from '@wagmi/core/chains';
+// import { bsc } from '@wagmi/core/chains';
 
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
 import { Web3Modal } from '@web3modal/html';
 
 
-debugger
-
-const testNet = [sepolia, lineaTestnet]
-const chains = [bsc, ...testNet];
+// const testNet = [sepolia, lineaTestnet]
+const chains = [...Object.values(chainObj)];
 const projectId = 'a5d19cad465451fb165833a07e1c0162';
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
@@ -46,24 +42,27 @@ const wagmiConfig = createConfig({
 const ethereumClient = new EthereumClient(wagmiConfig, chains);
 const web3modal = new Web3Modal({ projectId }, ethereumClient);
 
+
+// 监听 (锁定 断开 授权 会触发  ， 已连过(openModal) 解锁 不会触发)
 watchAccount((data) => {
   console.log('🤡 / watchAccount / data:', data);
 });
 
+// 监听 切换链时
 watchNetwork((data) => {
   console.log('🤡 / watchNetwork / data:', data);
 });
-// setTimeout(() => {
-//   web3modal.setDefaultChain(mainnet);
-// }, 1000);
+
+
+// 监听 app 扫码授权回调
 web3modal.subscribeEvents((ev) => {
   console.log('🤡 / web3modal.subscribeEvents / ev:', ev);
 });
-
+// 监听WalletConnect弹窗唤起 打开 和 关闭
 web3modal.subscribeModal((state) => {
   console.log('🤡 / web3modal.subscribeModal / state:', state);
   if (!state.open) {
-    // disconnect();
+    web3modal.setDefaultChain(sepolia);
   }
 });
 
@@ -76,11 +75,9 @@ async function myGetAccount() {
 // 获取余额原生币&代币
 async function myGetBalance(contractAddress?: string) {
   const account = getAccount();
-  console.log( core );
-
-  let res = await fetchBalance({address: account.address!,token: contractAddress as any })
+  let res = await fetchBalance({ address: account.address!, token: contractAddress as any })
   // let res = await ethereumClient.fetchBalance({address: account.address!,token: contractAddress as any })
-  
+
   console.log('🤡 / myGetBalance / res:', res);
 
 }
@@ -88,7 +85,7 @@ async function myGetBalance(contractAddress?: string) {
 // 转账原生币&代币
 async function myTransfer(contractAddress?: string) {
   const toAddress = '0x78BE169B127021fAA12503873AC566D1fd2f746e';
-  
+
   if (contractAddress) {
     const res = await writeContract({
       abi: erc20ABI,
@@ -111,215 +108,103 @@ async function myTransfer(contractAddress?: string) {
   }
 }
 
+class user {
+  static switchNetwork(obj:{chainId:number}){
+    ethereumClient.switchNetwork(obj)
+    // const chain = Object.values(chainObj).find((el)=>{return Number(el.id)===Number(chainId)})
+    // web3modal.setDefaultChain( chain )
+    debugger
+  }
+  static a(){
+    //  import { prepareWriteContract, writeContract } from '@wagmi/core'
+    // 
+    //  const config = await prepareWriteContract({
+    //    address: '0x...',
+    //    abi: wagmiAbi,
+    //    functionName: 'mint',
+    //  })
+    //  const result = await writeContract(config)
+  }
+}
 </script>
 
 <template>
   <div>
-    <!-- <div style="margin: 50px;">
-      <h1>WalletConnectHtml</h1>
-      <button @click="connect">connect</button>
-      <button @click="transfer">transfer</button>
-    </div> -->
     <fieldset>
-        <legend><h1>WalletConnectHtml</h1></legend>
-        <section>
-          <a-button @click="web3modal.openModal({ chains })">连接</a-button>
-          <a-button @click="disconnect()">断连</a-button>
-          <a-button @click="switchNetwork({ chainId: 56 })">切换到主网</a-button>
-        </section>
+      <legend>
+        <h1>WalletConnectHtml</h1>
+      </legend>
+      <section>
+        <a-button @click="web3modal.openModal({ chains })">连接</a-button>
+        <a-button @click="disconnect()">断连</a-button>
+        <a-button @click="switchNetwork({ chainId: 137 })">切换到网络</a-button>
+        <a-button @click="user.switchNetwork({ chainId: 592 })">切换到网络</a-button>
+      </section>
     </fieldset>
     <fieldset>
-        <legend><h1>WalletConnectHtml</h1></legend>
-        <section>
-          <a-button @click="myGetAccount()">获取账户</a-button>
-          <a-button @click="myGetBalance()">获取原生</a-button>
-          <a-button @click="myGetBalance('0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7')">获取代币</a-button>
-          <a-button @click="myTransfer()">转账原生</a-button>
-          <a-button @click="myTransfer('0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7')">转账代币</a-button>
-        </section>
+      <legend>
+        <h1>WalletConnectHtml</h1>
+      </legend>
+      <section>
+        <a-button @click="myGetAccount()">获取账户</a-button>
+        <a-button @click="myGetBalance()">获取原生</a-button>
+        <a-button @click="myGetBalance('0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7')">获取代币</a-button>
+        <a-button @click="myTransfer()">转账原生</a-button>
+        <a-button @click="myTransfer('0x561CDD3184985e5d38bb2d4c41b4c19C938d8cF7')">转账代币</a-button>
+      </section>
+    </fieldset>
+    <fieldset>
+      <legend>
+        <h1>core 对象</h1>
+      </legend>
+      <section>
+        <a-tag style="margin:5px" color="cyan" v-for="item in Object.keys(core)">{{ item }}</a-tag>
+      </section>
+    </fieldset>
+    <fieldset>
+      <legend>
+        <h1>ethereumClient 对象</h1>
+      </legend>
+      <section>
+        <a-tag style="margin:5px" color="cyan" v-for="item in Object.keys(ethereumClient)">{{ item }}</a-tag>
+      </section>
+    </fieldset>
+    <fieldset>
+      <legend>
+        <h1>web3modal 对象</h1>
+      </legend>
+      <section>
+        <a-tag style="margin:5px" color="cyan" v-for="item in Object.keys(web3modal)">{{ item }}</a-tag>
+      </section>
+    </fieldset>
+    <fieldset>
+      <legend>
+        <h1>chains</h1>
+      </legend>
+      <section>
+        <a-table :columns="[
+          { title: 'id', dataIndex: 'id', },
+          { title: 'network', dataIndex: 'network', },
+          { title: 'nativeCurrency', dataIndex: 'nativeCurrency', },
+        ]" :data-source="Object.values(chainObj)" bordered>
+
+          <template #bodyCell="{ column, text }">
+            <template v-if="column.dataIndex === 'nativeCurrency'">
+              <a>{{ text }}</a>
+            </template>
+          </template>
+        </a-table>
+        <ul>
+          <li v-for="item in Object.values(chainObj)">
+            <b style="width: 150px;display: inline-block;">{{ item.id }}</b>
+            <b style="width: 250px;display: inline-block;">{{ item.network }}</b>
+            <i>{{ item.nativeCurrency }}</i>
+          </li>
+        </ul>
+      </section>
     </fieldset>
   </div>
 </template>
 
 
 
-
-<!-- 
-
-[
-    "arbitrum",
-    "arbitrumGoerli",
-    "arbitrumNova",
-    "arbitrumSepolia",
-    "astar",
-    "astarZkatana",
-    "aurora",
-    "auroraTestnet",
-    "avalanche",
-    "avalancheFuji",
-    "base",
-    "baseGoerli",
-    "baseSepolia",
-    "bearNetworkChainMainnet",
-    "bearNetworkChainTestnet",
-    "boba",
-    "bronos",
-    "bronosTestnet",
-    "bsc",
-    "bscTestnet",
-    "bxn",
-    "bxnTestnet",
-    "canto",
-    "celo",
-    "celoAlfajores",
-    "celoCannoli",
-    "chiliz",
-    "classic",
-    "confluxESpace",
-    "confluxESpaceTestnet",
-    "coreDao",
-    "cronos",
-    "cronosTestnet",
-    "crossbell",
-    "dfk",
-    "dogechain",
-    "edgeware",
-    "edgewareTestnet",
-    "ekta",
-    "ektaTestnet",
-    "eos",
-    "eosTestnet",
-    "evmos",
-    "evmosTestnet",
-    "fantom",
-    "fantomSonicTestnet",
-    "fantomTestnet",
-    "fibo",
-    "filecoin",
-    "filecoinCalibration",
-    "filecoinHyperspace",
-    "flare",
-    "flareTestnet",
-    "foundry",
-    "fuse",
-    "fuseSparknet",
-    "gnosis",
-    "gnosisChiado",
-    "gobi",
-    "goerli",
-    "haqqMainnet",
-    "haqqTestedge2",
-    "hardhat",
-    "harmonyOne",
-    "holesky",
-    "iotex",
-    "iotexTestnet",
-    "kava",
-    "kavaTestnet",
-    "klaytn",
-    "klaytnBaobab",
-    "kroma",
-    "kromaSepolia",
-    "linea",
-    "lineaTestnet",
-    "localhost",
-    "lukso",
-    "mainnet",
-    "manta",
-    "mantaTestnet",
-    "mantle",
-    "mantleTestnet",
-    "meter",
-    "meterTestnet",
-    "metis",
-    "metisGoerli",
-    "mev",
-    "mevTestnet",
-    "modeTestnet",
-    "moonbaseAlpha",
-    "moonbeam",
-    "moonbeamDev",
-    "moonriver",
-    "neonDevnet",
-    "neonMainnet",
-    "nexi",
-    "nexilix",
-    "oasys",
-    "okc",
-    "opBNB",
-    "opBNBTestnet",
-    "optimism",
-    "optimismGoerli",
-    "optimismSepolia",
-    "pgn",
-    "pgnTestnet",
-    "plinga",
-    "polygon",
-    "polygonMumbai",
-    "polygonZkEvm",
-    "polygonZkEvmTestnet",
-    "pulsechain",
-    "pulsechainV4",
-    "qMainnet",
-    "qTestnet",
-    "rollux",
-    "rolluxTestnet",
-    "ronin",
-    "rootstock",
-    "saigon",
-    "sapphire",
-    "sapphireTestnet",
-    "scroll",
-    "scrollSepolia",
-    "scrollTestnet",
-    "sepolia",
-    "shardeumSphinx",
-    "shibarium",
-    "shimmer",
-    "shimmerTestnet",
-    "skaleBlockBrawlers",
-    "skaleCalypso",
-    "skaleCalypsoTestnet",
-    "skaleChaosTestnet",
-    "skaleCryptoBlades",
-    "skaleCryptoColosseum",
-    "skaleEuropa",
-    "skaleEuropaTestnet",
-    "skaleExorde",
-    "skaleHumanProtocol",
-    "skaleNebula",
-    "skaleNebulaTestnet",
-    "skaleRazor",
-    "skaleTitan",
-    "skaleTitanTestnet",
-    "songbird",
-    "songbirdTestnet",
-    "spicy",
-    "syscoin",
-    "syscoinTestnet",
-    "taikoJolnir",
-    "taikoTestnetSepolia",
-    "taraxa",
-    "taraxaTestnet",
-    "telos",
-    "telosTestnet",
-    "tenet",
-    "thunderTestnet",
-    "vechain",
-    "wanchain",
-    "wanchainTestnet",
-    "xdc",
-    "xdcTestnet",
-    "zetachainAthensTestnet",
-    "zhejiang",
-    "zilliqa",
-    "zilliqaTestnet",
-    "zkSync",
-    "zkSyncTestnet",
-    "zora",
-    "zoraSepolia",
-    "zoraTestnet"
-]
-
-
- -->

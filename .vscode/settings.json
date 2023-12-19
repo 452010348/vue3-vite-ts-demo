@@ -1,0 +1,158 @@
+{
+  "files.eol": "\n",
+  // Enable the ESlint flat config support
+  "eslint.experimental.useFlatConfig": true,
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.organizeImports": "never"
+  },
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    {
+      "rule": "style/*",
+      "severity": "off"
+    },
+    {
+      "rule": "*-indent",
+      "severity": "off"
+    },
+    {
+      "rule": "*-spacing",
+      "severity": "off"
+    },
+    {
+      "rule": "*-spaces",
+      "severity": "off"
+    },
+    {
+      "rule": "*-order",
+      "severity": "off"
+    },
+    {
+      "rule": "*-dangle",
+      "severity": "off"
+    },
+    {
+      "rule": "*-newline",
+      "severity": "off"
+    },
+    {
+      "rule": "*quotes",
+      "severity": "off"
+    },
+    {
+      "rule": "*semi",
+      "severity": "off"
+    }
+  ],
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml"
+  ],
+  "dotenv.enableAutocloaking": false,
+  "i18n-ally.localesPaths": [
+    "src/locales/messages",
+    "src/pages-components/bridge-swap/components/DappPay/locales"
+  ],
+  "i18n-ally.pathMatcher": "{locale}.json",
+  "i18n-ally.dirStructure": "auto",
+  "i18n-ally.extract.keygenStrategy": "random",
+  "i18n-ally.editor.preferEditor": true,
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.displayLanguage": "zh",
+  "i18n-ally.includeSubfolders": false,
+  "i18n-ally.autoDetection": true,
+  "i18n-ally.annotationMaxLength": 10,
+  "i18n-ally.extract.keyMaxLength": 10,
+  "i18n-ally.extract.targetPickingStrategy": "none",
+  "i18n-ally.extract.parsers.html": {
+    "attributes": [
+      "text",
+      "title",
+      "alt",
+      "placeholder",
+      "label",
+      "aria-label"
+    ],
+    "ignoredTags": [
+      "script",
+      "style"
+    ],
+    "vBind": true,
+    "inlineText": true
+  },
+  "i18n-ally.extract.keygenStyle": "camelCase",
+  "stylelint.enable": true,
+  "stylelint.validate": [
+    "css",
+    "postcss",
+    "scss",
+    "vue",
+    "sass",
+    "html"
+  ],
+  "maptz.regionfolder": {
+    "showRegionsInOutline": true,
+    "[vue]": {
+      "foldDefinitions": [
+        {
+          "foldStartRegex": "^[\\s]*<!--[\\s]*#B[\\s]*(.*)[\\s]*-->[\\s]*$",
+          "foldEndRegex": "<!--[\\s]*#E",
+          "isFoldedByDefault": true
+        },
+        {
+          "foldStartRegex": "^[\\s]*/\\*[\\s]*#B[\\s]*(.*)[\\s]*\\*/[\\s]*$",
+          "foldEndRegex": "/\\*[\\s]*#E",
+          "isFoldedByDefault": true
+        }
+      ]
+    },
+    "[typescript, scss]": {
+      "foldStart": "/* #B [NAME] */",
+      "foldStartRegex": "^[\\s]*/\\*[\\s]*#B[\\s]*(.*)[\\s]*\\*/[\\s]*$",
+      "foldEnd": "/* #E */",
+      "foldEndRegex": "/\\*[\\s]*#E",
+      "isFoldedByDefault": true
+    }
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/king.ddhi.cn": true,
+    "**/kingtest.ddhi.cn": true,
+    ".output": true,
+    // "node_modules": true
+  },
+  "commentTranslate.multiLineMerge": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "use*Machine.ts": "${capture}Machine.ts, ${capture}Machine.typegen.ts",
+    "*.vue": "${capture}.share.vue, ${capture}.mobile.vue, ${capture}.pc.vue",
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, .npmrc, .gitignore, tsconfig.json, nuxt.config.ts, ts-codegen.config.json, eslint.config.js, .prettierrc, commitlint.config.cjs, postcss.config.cjs, stylelint.config.cjs, uno.config.ts, *.sh, qodana.yaml"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cssToTailwindCss.arbitraryProperties": false,
+  "vue.codeActions.enabled": false,
+  "editor.accessibilityPageSize": 14,
+  "i18n-ally.sourceLanguage": "zh"
+}
