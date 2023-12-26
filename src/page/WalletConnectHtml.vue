@@ -1,9 +1,13 @@
 <script setup lang="ts">
+//测试网
+import { sepolia, lineaTestnet } from 'viem/chains'
+//正式网
+// import { bsc } from '@wagmi/core/chains';
 
+import Web3 from 'Web3'
 // import * as chains_A from 'viem/chains'
 import * as core from "@wagmi/core"
 import * as chainObj from '@wagmi/core/chains';
-
 import {
   configureChains,
   createConfig,
@@ -20,14 +24,8 @@ import {
   // readContracts,
 } from '@wagmi/core';
 
-//测试网
-import { sepolia, lineaTestnet } from 'viem/chains'
-//正式网
-// import { bsc } from '@wagmi/core/chains';
-
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
 import { Web3Modal } from '@web3modal/html';
-
 
 // const testNet = [sepolia, lineaTestnet]
 const chains = [...Object.values(chainObj)];
@@ -59,10 +57,10 @@ web3modal.subscribeEvents((ev) => {
   console.log('🤡 / web3modal.subscribeEvents / ev:', ev);
 });
 // 监听WalletConnect弹窗唤起 打开 和 关闭
-web3modal.subscribeModal((state) => {
+web3modal.subscribeModal( async (state) => {
   console.log('🤡 / web3modal.subscribeModal / state:', state);
   if (!state.open) {
-    web3modal.setDefaultChain(sepolia);
+      web3modal.setDefaultChain(sepolia);
   }
 });
 
@@ -126,6 +124,9 @@ class user {
     //  const result = await writeContract(config)
   }
 }
+
+
+
 </script>
 
 <template>

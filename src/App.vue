@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { reactive, shallowRef, markRaw, defineAsyncComponent } from 'vue';
 // const comId = shallowRef('');
-const comId = shallowRef(defineAsyncComponent(() => import('./page/WalletConnectHtml.vue')));
+const comId = shallowRef(defineAsyncComponent(() => import('./page/WalletConnectEthers.vue')));
 const data = reactive([
   { name: '插槽', com: markRaw(defineAsyncComponent(() => import('./page/插槽.vue'))) },
   { name: 'Tree', com: markRaw(defineAsyncComponent(() => import('./page/Tree.vue'))) },
