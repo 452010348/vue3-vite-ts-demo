@@ -7,29 +7,6 @@ import { nextTick, onMounted, reactive } from 'vue';
 const projectId = 'a5d19cad465451fb165833a07e1c0162';
 
 
-// 2.配置
-// import { mainnet, arbitrum } from 'viem/chains'
-// const chains = [mainnet, arbitrum]
-
-// import * as chainObj from '@wagmi/core/chains';
-// const chains = [...Object.values(chainObj)];
-
-
-// // 3.初始化
-// import * as wagmiCore from '@wagmi/core'
-// import * as web3modalEthereum from '@web3modal/ethereum';
-// const configureChains = wagmiCore.configureChains(chains, [web3modalEthereum.w3mProvider({ projectId })]);
-// wagmiCore.createConfig({
-//   autoConnect: true,
-//   connectors: web3modalEthereum.w3mConnectors({ projectId, chains }),
-//   publicClient: configureChains.publicClient,
-// });
-
-// const ethereumClient = new web3modalEthereum.EthereumClient(createConfig, chains);
-// import { Web3Modal } from '@web3modal/html';
-// const web3modal = new Web3Modal({ projectId }, ethereumClient);
-// console.log( web3modal );
-
 const walletData = reactive<{accounts:String,chainId:number|string,address:string}>({
   accounts:"",
   chainId:"",
@@ -127,6 +104,12 @@ async function getProvider(id){
     chains: [id], //  chain ids
     methods, // ethereum methods
     events, // ethereum events
+
+    qrModalOptions:{
+      themeVariables:{
+        '--w3m-z-index':"6000"
+      }
+    } 
   })
 }
 
