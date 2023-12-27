@@ -30,7 +30,7 @@ import { Web3Modal } from '@web3modal/html';
 // const testNet = [sepolia, lineaTestnet]
 const chains = [...Object.values(chainObj)];
 const projectId = 'a5d19cad465451fb165833a07e1c0162';
-
+debugger
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
   autoConnect: true,
@@ -89,9 +89,8 @@ async function myTransfer(contractAddress?: string) {
       abi: erc20ABI,
       address: contractAddress as any,
       functionName: 'transfer',
-      args: [toAddress, 10000000n],
+      args: [toAddress, 10000n],
     });
-
     console.log('🤡 / myTransfer / res:', res);
   }
   else {
@@ -109,19 +108,8 @@ async function myTransfer(contractAddress?: string) {
 class user {
   static switchNetwork(obj:{chainId:number}){
     ethereumClient.switchNetwork(obj)
-    // const chain = Object.values(chainObj).find((el)=>{return Number(el.id)===Number(chainId)})
-    // web3modal.setDefaultChain( chain )
-    debugger
-  }
-  static a(){
-    //  import { prepareWriteContract, writeContract } from '@wagmi/core'
-    // 
-    //  const config = await prepareWriteContract({
-    //    address: '0x...',
-    //    abi: wagmiAbi,
-    //    functionName: 'mint',
-    //  })
-    //  const result = await writeContract(config)
+    const chain = Object.values(chainObj).find((el)=>{return Number(el.id)===Number(chainId)})
+    web3modal.setDefaultChain( chain )
   }
 }
 
@@ -183,15 +171,24 @@ class user {
         <h1>chains</h1>
       </legend>
       <section>
+
         <a-table :columns="[
           { title: 'id', dataIndex: 'id', },
           { title: 'network', dataIndex: 'network', },
           { title: 'nativeCurrency', dataIndex: 'nativeCurrency', },
+          { title: 'rpc', dataIndex: 'rpcUrls', },
+          { title: 'blockExplorers', dataIndex: 'blockExplorers', },
         ]" :data-source="Object.values(chainObj)" bordered>
 
           <template #bodyCell="{ column, text }">
             <template v-if="column.dataIndex === 'nativeCurrency'">
               <a>{{ text }}</a>
+            </template>
+            <template v-if="column.dataIndex === 'rpcUrls'">
+              <i>{{ text.public.http[0] }}</i>
+            </template>
+            <template v-if="column.dataIndex === 'blockExplorers'">
+              <a :href="text?.default?.url" target="_blank">{{ text?.default?.url }}</a>
             </template>
           </template>
         </a-table>
@@ -199,7 +196,10 @@ class user {
           <li v-for="item in Object.values(chainObj)">
             <b style="width: 150px;display: inline-block;">{{ item.id }}</b>
             <b style="width: 250px;display: inline-block;">{{ item.network }}</b>
-            <i>{{ item.nativeCurrency }}</i>
+            <i style="width: 600px;display: inline-block;">{{ item.nativeCurrency }}</i>
+            <u style="width: 600px;display: inline-block;">{{ item.rpcUrls.public.http[0] }}</u>
+            <!-- <a :href="item?.blockExplorers?.default?.url" target="_blank">blockExplorers</a> -->
+            <u>{{item?.blockExplorers?.default?.url}}</u>
           </li>
         </ul>
       </section>
