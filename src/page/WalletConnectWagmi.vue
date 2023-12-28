@@ -96,8 +96,8 @@ const USDTAbi = [
 
 
 
-import { useWeb3ModalProvider } from '@web3modal/ethers/vue'
-// const { walletProvider } = useWeb3ModalProvider()
+ import { useWeb3ModalProvider } from '@web3modal/ethers/vue'
+ const { walletProvider } = useWeb3ModalProvider()
 
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
 // const provider = await nextTick( async ()=>{
@@ -122,8 +122,6 @@ async function getProvider(){
 
 async function onSignMessage() {
   const provider = new BrowserProvider(walletProvider)
-
-  // const provider = new ethers.BrowserProvider(walletProvider)
   const signer = await provider.getSigner()
   const signature = await signer?.signMessage('Hello Web3Modal Ethers')
   console.log(signature)

@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { reactive, shallowRef, markRaw, defineAsyncComponent } from 'vue';
 // const comId = shallowRef('');
-const comId = shallowRef(defineAsyncComponent(() => import('./page/WalletConnectEthers.vue')));
+const comId = shallowRef(defineAsyncComponent(() => import('./page/Phantom.vue')));
 const data = reactive([
   { name: '插槽', com: markRaw(defineAsyncComponent(() => import('./page/插槽.vue'))) },
   { name: 'Tree', com: markRaw(defineAsyncComponent(() => import('./page/Tree.vue'))) },
@@ -30,6 +30,7 @@ const data = reactive([
   { name: 'WalletConnectEthers', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectEthers.vue'))) },
   { name: 'WalletConnectWagmi', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectWagmi.vue'))) },
   { name: 'WalletConnectHtml', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectHtml.vue'))) },
+  { name: 'Phantom', com: markRaw(defineAsyncComponent(() => import('./page/Phantom.vue'))) },
 ]);
 const onTab = (item: any, index: number) => {
   console.log(item, index);
