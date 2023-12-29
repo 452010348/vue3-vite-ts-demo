@@ -1,10 +1,9 @@
-<template v-if="condition">
-  <button v-for="(item, idnex) in data" @click="onTab(item, idnex)">{{ item.name }}</button>
+<template>
+  <a-button v-for="(item, idnex) in data" @click="onTab(item, idnex)">{{ item.name }}</a-button>
   <component :is="comId"></component>
 </template>
 <script setup lang="ts">
 import { reactive, shallowRef, markRaw, defineAsyncComponent } from 'vue';
-// const comId = shallowRef('');
 const comId = shallowRef(defineAsyncComponent(() => import('./page/Phantom.vue')));
 const data = reactive([
   { name: '插槽', com: markRaw(defineAsyncComponent(() => import('./page/插槽.vue'))) },
@@ -37,4 +36,4 @@ const onTab = (item: any, index: number) => {
   comId.value = item.com;
 };
 </script>
-<style></style>
+<style lang="scss" scoped></style>
