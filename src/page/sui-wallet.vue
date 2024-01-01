@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>sui-wallet</h2>
+    <h2><a href="https://github.com/suiet/wallet-kit/tree/main">sui-wallet</a></h2>
+    
     <p>钱包地址: </p>
     {{ Web3.utils.toWei('1', 'gwei') }}
     {{ Web3.utils.toBN('123000').mul(Web3.utils.toBN(2)) }}
@@ -26,6 +27,7 @@ import { SignInWithSui , SignInWithSuiButton} from 'vue-sui';
 import { toRef, toRefs } from '@vueuse/core';
 const $sui = ref()
 async function onConnected(suiInBrowser:any) {
+    debugger
     const provider = await suiInBrowser.getProvider(); // instance of JsonRpcProvider
     const suiMaster = await suiInBrowser.getSuiMaster(); // instance of suidouble SuiMaster instance
     const currentChain = suiInBrowser.getCurrentChain(); // chain id, `sui:mainnet`  `sui:testnet` etc
@@ -33,13 +35,12 @@ async function onConnected(suiInBrowser:any) {
 }
 function connect(){
   $sui.value.onClick()
-  console.log( "connect", toRefs($sui.value) )
+  console.log( "connect", $sui.value)
+  debugger
 }
 
 onMounted(()=>{
   console.log( "onMounted", toRefs($sui.value) )
-
-
   $sui.value.provider = function(onProvider){
     debugger
   }
@@ -53,7 +54,6 @@ onMounted(()=>{
 //     const data = await adapter.signAndExecuteTransactionBlock({transactionBlock: tx});
 //     console.log( data );
 // }
-
 
 // async function onSuiMaster(suiMaster) {
 //   debugger

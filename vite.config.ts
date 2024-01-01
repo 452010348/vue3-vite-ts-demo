@@ -3,14 +3,15 @@ import path  from 'node:path'
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-// 使用它可以移动端
+// 使用它可以移动端访问兼容
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 
 // 在开发中 可能由于配置 没配置好  只有nuxt ssr 移动端才能访问
 // import UnoCSS from 'unocss/vite'
-import nodePolyfill from 'rollup-plugin-node-polyfills';
 
+//此方法修复 Buffer is not defined 
+import * as nodePolyfills from 'vite-plugin-node-stdlib-browser'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,8 +19,7 @@ export default defineConfig({
     vue(),
     // 开启以后某些手机断白屏， 利用ssr渲染似乎可以解决 
     // UnoCSS()
-
-    nodePolyfill()
+    nodePolyfills.default()
   ],
   css: {
     postcss: {
@@ -29,15 +29,12 @@ export default defineConfig({
       ]
     }
   },
-  // 指定 TypeScript 配置文件
-  // 如果你不想用 TypeScript 可以不配置这个字段
-  // 并且将 src/main.js 改成 src/main.ts
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
   },
-  // 指定输出文件夹和公共资源路径
+
 
   server: {
     host: '0.0.0.0',
@@ -54,11 +51,9 @@ export default defineConfig({
       key:fs.readFileSync(path.resolve(__dirname, './ssl/localhost.key')) ,
       cert:fs.readFileSync(path.resolve(__dirname, './ssl/localhost.crt'))
     },
-    open: true,
+    // open: true,
   },
-//  define: {
-//     'Buffer': 'buffer'
-//   },
+
   optimizeDeps: {
     esbuildOptions: {
       define: {

@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@mysten/dapp-kit": "^0.10.3",
+    "@project-serum/anchor": "^0.26.0",
+    "@solana/spl-token": "^0.3.9",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.87.6",
     "@tanstack/vue-query": "^4.35.3",
@@ -52,15 +54,16 @@
     "xstate": "^4.38.2"
   },
   "devDependencies": {
+    "@mysten/sui.js": "^0.48.1",
     "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
-    "rollup-plugin-node-polyfills": "^0.2.1",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-node": "^3.1.0",
+    "vite-plugin-node-stdlib-browser": "^0.2.1",
     "vue-tsc": "^1.8.5"
   }
 }

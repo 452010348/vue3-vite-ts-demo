@@ -26,10 +26,12 @@ const data = reactive([
   { name: 'ethereum3_Sepolia', com: markRaw(defineAsyncComponent(() => import('./page/ethereum3_Sepolia.vue'))) },
   { name: 'Bitget', com: markRaw(defineAsyncComponent(() => import('./page/Bitget.vue'))) },
   { name: 'sui-wallet', com: markRaw(defineAsyncComponent(() => import('./page/sui-wallet.vue'))) },
+  { name: 'sui-wallet2', com: markRaw(defineAsyncComponent(() => import('./page/sui-wallet2.vue'))) },
   { name: 'WalletConnectEthers', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectEthers.vue'))) },
   { name: 'WalletConnectWagmi', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectWagmi.vue'))) },
   { name: 'WalletConnectHtml', com: markRaw(defineAsyncComponent(() => import('./page/WalletConnectHtml.vue'))) },
   { name: 'Phantom', com: markRaw(defineAsyncComponent(() => import('./page/Phantom.vue'))) },
+  { name: 'Phantom2', com: markRaw(defineAsyncComponent(() => import('./page/Phantom2.vue'))) },
 ]);
 const onTab = (item: any, index: number) => {
   console.log(item, index);

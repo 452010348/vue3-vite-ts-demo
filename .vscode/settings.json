@@ -152,7 +152,7 @@
     "*.vue": "${capture}.share.vue, ${capture}.mobile.vue, ${capture}.pc.vue",
     "*.ts": "${capture}.js, ${capture}.typegen.ts",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "README.md": "*.md",
+   
     "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, .npmrc, .gitignore, tsconfig.json, nuxt.config.ts, ts-codegen.config.json, eslint.config.js, .prettierrc, commitlint.config.cjs, postcss.config.cjs, stylelint.config.cjs, uno.config.ts, *.sh, qodana.yaml"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
